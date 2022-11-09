@@ -1,0 +1,27 @@
+version: "3"
+services:
+  webserver:
+    restart: unless-stopped
+    container_name: parser-webserver
+    image: nginx:stable-alpine
+    working_dir: /app
+    ports:
+      - "80:80"
+    volumes:
+      - ./.docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./:/app
+    networks:
+      default:
+
+  backend:
+    container_name: parser-fpm
+    build: ./.docker/php/fpm
+    restart: unless-stopped
+    working_dir: /app
+    volumes:
+      - ./.docker/php/fpm/php-override.ini:/usr/local/etc/php/conf.d/php-override.ini
+      - ./.docker/php/composer-cache:/root/.composer/
+      - ./:/app
+
+networks:
+  default:
