@@ -1,0 +1,7 @@
+<phpunit defaultTestSuite="parser-test-suit">
+    <testsuites>
+        <testsuite name="parser-test-suit">
+            <directory>tests</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>
