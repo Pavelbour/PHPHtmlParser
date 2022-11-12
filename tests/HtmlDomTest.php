@@ -16,14 +16,14 @@ final class HtmlDomTest extends TestCase
         $child1 = new HtmlNode('div', $rootNode);
         $child2 = new HtmlNode('div', $rootNode);
         $child3 = new HtmlNode('div', $rootNode);
-        $innerNode = new HtmlNode('div', $child2, 'test');
+        $innerNode = new HtmlNode('div', $child2, [], false, 'test');
 
         self::$dom = new HtmlDom($rootNode);
     }
 
     public function testGetNodeByIndexWithCorrectIndex(): void
     {
-        $this->assertEquals('test', self::$dom->getNodeByIndex([1,0])->getNode());
+        $this->assertEquals('test', self::$dom->getNodeByIndex([1,0])->getNestedHtml());
     }
 
     public function testGetNodeByIndexWithIncorrectIndex(): void

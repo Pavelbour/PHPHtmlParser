@@ -3,31 +3,43 @@ namespace App\Parser\Dom;
 
 /**
  * Represent a node of the HTML DOM
-* 
+ * 
  * @property ?HtmlNode $parent node parent
  * @property array $children node children
  * @property string $tag html tag
  * @property string $node node content
+ * @property array $attributes node attributes
+ * @property bool $isAutoclosed is tag autoclosed
  * 
  * @method void addChild(HtmlNode $child) add a child to the parent node
  * @method array getChildren() return the current node children
  * @method int getChildrenNumber() return the current node children number
  * @method string getTag() return current node tag
- * @method string getNode() return current node content
+ * @method string getNestedHtml() return current node content
  * @method HtmlNode|null getParent() return current node parent or null
+ * @method bool isAutoclosed() return is tag autoclosed
  */
 class HtmlNode
 {
     private ?HtmlNode $parent = null;
-    private ?array $children = [];
+    private array $children = [];
+    private array $attributes = [];
     private string $tag;
-    private ?string $node;
+    private bool $isAutoclosed = false; 
+    private string $nestedHtml = '';
     
-    public function __construct(string $tag, HtmlNode $parent = null, string $node = '')
-    {
+    public function __construct(
+        string $tag,
+        HtmlNode $parent = null,
+        array $attributes = [],
+        bool $isAutoclosed = false,
+        string $nestedHtml = ''
+    ) {
         $this->tag = $tag;
         $this->parent = $parent;
-        $this->node = $node;
+        $this->nestedHtml = $nestedHtml;
+        $this->attributes = $attributes;
+        $this->isAutoclosed = $isAutoclosed;
 
         if ($parent) {
             $parent->addChild($this);
@@ -74,9 +86,9 @@ class HtmlNode
      * Return the current node content
      * @return string content
      */
-    public function getNode(): string
+    public function getNestedHtml(): string
     {
-        return $this->node;
+        return $this->nestedHtml;
     }
 
     /**
@@ -86,5 +98,23 @@ class HtmlNode
     public function getParent(): HtmlNode | null
     {
         return $this->parent;
+    }
+
+    /**
+     * Return the current node attributes
+     * @return array attributes
+     */
+    public function getAttributes(): array
+    {
+        return $this->attributes;
+    }
+
+    /**
+     * Return is tag autoclosed
+     * @return bool is autoclosed
+     */
+    public function isAutoclosed(): bool
+    {
+        return $this->isAutoclosed;
     }
 }

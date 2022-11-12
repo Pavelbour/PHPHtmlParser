@@ -13,9 +13,9 @@ final class HtmlNodeTest extends TestCase
         $child1 = new HtmlNode('div', $rootNode);
         $child2 = new HtmlNode('div', $rootNode);
         $child3 = new HtmlNode('div', $rootNode);
-        $innerNode = new HtmlNode('div', $child2, 'test');
+        $innerNode = new HtmlNode('div', $child2, [], false, 'test');
 
         $this->assertEquals(3, $rootNode->getChildrenNumber());
-        $this->assertEquals('test', $rootNode->getChildren()[1]->getChildren()[0]->getNode());
+        $this->assertEquals('test', $rootNode->getChildren()[1]->getChildren()[0]->getNestedHtml());
     }
 }
